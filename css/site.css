@@ -1,0 +1,13 @@
+body{
+	background-image: url(../img/lightpaperfibers.png);
+	background-repeat: repeat;
+	background-attachment: fixed;
+}
+
+header#sideBar{
+	position:fixed;
+	top:0;
+	left:0;
+	width:200px;
+	height:100%;
+}
