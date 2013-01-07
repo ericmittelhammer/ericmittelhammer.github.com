@@ -3,14 +3,12 @@ layout: layout
 title: Eric Mittelhammer
 ---
 
-<div class="content">
-  <div class="related">
-    <ul>
+
+
       {% for post in site.posts %}
-      <li>
-	<span>{{ post.date | date: "%B %e, %Y" }}</span> <a href="{{ post.url }}">{{ post.title }}</a>
-      </li>
+      <div class="post">
+	 	<h2 class="mainpage-post-title">{{ post.title }}</h2>
+	 	<p>{{ post.content | more:"excerpt"}}</p>
+	 	<p><a href="{{ post.url }}">More...</a></p>
+      </div>
       {% endfor %}
-    </ul>
-  </div>
-</div>
