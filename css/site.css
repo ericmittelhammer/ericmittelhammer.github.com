@@ -8,18 +8,17 @@ body{
 }
 
 @media all and (min-width: 800px) {
-	div#main{
-		max-width: 800px;
-		min-width: 280px;
-		margin: 0 auto;
+	div#main {
+		position:relative;
+		width:800px;
+		margin: 40px auto 0 auto;
 	}
-
-
 }
 
 @media all and (max-width: 799px) {
-	div#main{
-		width: 100%;
+	div#main {
+		position:relative;
+		margin: 40px;
 	}
 }
 
@@ -39,10 +38,7 @@ span#blog-title{
 	display:block;
 }
 
-div#main{
-	margin: auto;
-	position:relative;
-}
+
 
 ul#social{
 	list-style-type: none;
@@ -63,6 +59,14 @@ ul#social li:hover{
 div.content{
 	position: relative;
 	background-color:#fff;
+}
+
+div.post .hero{
+	max-width:100%;
+	max-height: 300px;
+}
+
+div.post-content {
 	padding: 20px 80px;
 }
 
