@@ -10,10 +10,9 @@ This is some more text
 
 (.virtualenv):~/repos/self-join-example$ time python scripts/load.py
 
-real	0m33.849s
-user	0m4.408s
-sys	0m1.428s
-
+real	7m7.229s
+user	2m2.592s
+sys	0m40.591s
 
 
 self_join_example=# select * from posts limit 10;

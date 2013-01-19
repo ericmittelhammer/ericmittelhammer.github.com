@@ -8,6 +8,7 @@ title: Eric Mittelhammer
       {% for post in site.posts %}
       <div class="post">
 	 	<h2 class="mainpage-post-title">{{ post.title }}</h2>
+	 	<hr/>
 	 	<p>{{ post.content | more:"excerpt"}}</p>
 	 	<p><a href="{{ post.url }}">More...</a></p>
       </div>
