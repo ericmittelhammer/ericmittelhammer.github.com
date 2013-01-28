@@ -8,7 +8,9 @@ title: Eric Mittelhammer
       {% for post in site.posts %}
       <div class="post">
       	{% if post.heroImage %}
-      		<img class="hero" src="{{post.heroImage}}"/>
+      	<div class="hero">
+      		<img src="{{post.heroImage}}"/>
+      	</div>
       	{% endif %}
       	<div class="post-content">
 		 	<h2 class="mainpage-post-title">{{ post.title }}</h2>
