@@ -30,11 +30,12 @@
             <header id="global">
                 <span id="blog-title">Eric Mittelhammer</span>
                 <ul id="social">
-                    <li><i class="icon-envelope-alt"></i></li>
-                    <li><i class="icon-twitter"></i></li>
-                    <li><i class="icon-github"></i></li>
-                    <li><i class="icon-linkedin"></i></li>
-                </ul>
+                    <li><script type="text/javascript">
+                    document.write("<a href=\"mail" + "to:" + new Array("blog","ericmittelhammer.com").join("@") + "\">" + "<i class=\"icon-envelope-alt\"></i>" + "</" + "a>");
+                </script></li>
+                <li><a href="http://twitter.com/emittelhammer"><i class="icon-twitter"></i></a></li>
+                <li><a href="https://github.com/ericmittelhammer"><i class="icon-github"></i></a></li>
+            </ul>
             </header>   
             <div class="content">
             <!-- Add your site or application content here -->
@@ -42,12 +43,12 @@
   	<div class="post-content">
 	    <h1 class="post-title">Generating Nonsequential Primary Keys</h1>
 	    <hr/>
-	    <p><p>Auto-incremented primary keys are nearly ubiquitous in DBMSs.  But for multi-master or sharded systems, they introduce the possibility (certainty?) of collision.   They are also sequential, and therefore, guessable - which is not always ideal.  Here's a pretty simple way to create nonsequential unique keys accross your entire system.</p>
+	    <p><p>Auto-incremented primary keys are nearly ubiquitous in DBMSs.  But for multi-master or sharded systems, they introduce the possibility (certainty?) of collision.   They are also sequential, and therefore, predictable - which is not always ideal.  Here's a pretty simple way to create nonsequential unique keys accross your entire system.</p>
 
 <!--more-->
 
 
-<p>In order to guarantee that keys will be unique, you have to either generate them all in the same place, or rely on the client creating each record to supply a unique ID.  With the former, you run the risk of creating a performance bottleneck while introducing a single point of failure.  Neither of these is desireable, so we'll use the latter.  I should mention, however, that this level of redundancy does not come without cost.  Relying on the client to provide a unique ID requires the use of a much larger address space than you'd normally use for an autoincrement column.  In this example, we'll be using 64-bit BIGINTs.  This requires double the amount of storage space typically reserved for INTEGER types.  Keep in mind this will be multiplied in every table which you use this column as a foreign key.</p>
+<p>To guarantee that keys will be unique, you have to either generate them all in the same place, or rely on the client to supply a unique ID when it creates a new record.  By using a single generation source, you could possibly create a performance bottleneck while introducing a single point of failure.  Instead, we'll generate unique keys on each client. This method requires the use of a much larger range of numbers than you'd normally use for an autoincrement column (you'll see why below).  Keep in mind this will be multiplied in every table in which you use this column as a foreign key.</p>
 
 <p>We're going to compose our key from three components:</p>
 
@@ -58,36 +59,42 @@
 </ol>
 
 
-<p>First, let's start with a timestamp.  We'll be using standard UNIX timestamp to a precision level of milliseconds.  That is, the number of milliseconds since the Unix Epoch:  January 1, 1970 12:00:00.  In order to compose a single integer from these various components, we'll bit-shift the time stamp all the way to the left of the 64-bit integer.  This has a few advantages:</p>
-
-<ul>
-<li>A creation timestamp is probably something you'd want to have anyway - which lessens the hit of having such a large key if you can eliminate a timestamp column.  This number is easily extracted from the ID by right-shifting the key.</li>
-<li>By making the timestamp the most significant part of the number, it guarantees that the rows can be ordered by their creation time.  This will also allow any indexes to be added sequentially, rather than having to insert them in-place.</li>
-</ul>
-
-
-<p>In Python, the time() function returns a float reperesenting the number of seconds since the Epoch, so to get the number of milliseconds as an integer:</p>
+<p>Let's start with the timestamp.  We'll be using standard UNIX timestamp to a precision level of milliseconds.  That is, the number of milliseconds since the Unix Epoch:  January 1, 1970 00:00:00 UTC.  Using Python, the time() function returns a float reperesenting the number of seconds since the Epoch, so to get the number of milliseconds as an integer:</p>
 
 <pre><code class="python" style="font-size:.9em">>>> int(time.time()*1000)
 1347927116156</code></pre>
 
 
-<p>Of course, YMMV...</p>
+<p>Of course, YMMV depending on your choice of language...</p>
 
-<p>Now let's take a look at the timestamp and how we're going to store it.  1346472000000 is the number of milliseconds between the Epoch and September 1st, 2012.  If we convert that to binary:</p>
+<p>Now let's take a look at how to store it.  1346472000000 is the number of milliseconds between the Epoch and midnight, September 1st, 2012.</p>
+
+<p>Converted to binary:</p>
 
 <pre><code class="python" style="font-size:.9em">>>> bin(1346472000000)
 '0b10011100101111111111111000011101000000000'</code></pre>
 
 
-<p>That's a 41-bit integer.  The largest number we can store in the same space is 2199023255552, or 2<sup>41</sup>-1.<br/>
+<p>That's a 41-bit integer.  The largest number we can store in the same space is 2199023255551, or 2<sup>41</sup>-1.<br/>
 See:</p>
 
 <pre><code class="python" style="font-size:.9em">>>> bin(int(math.pow(2, 41))-1)
 '0b11111111111111111111111111111111111111111'</code></pre>
 
 
-<p>This gives you until September 7th, 2039 before you run out of bits to store this timestamp.  That's good enough for me.  Now since we want the timestamp to represent the most significant portion of the number, we'll just shift it by 23 bits:</p>
+<p>That represents September 7th, 2039.  This is just fine for my purposes, but if you like, you can use a 42-bit number which will get you to May 15th 2109.</p>
+
+<p>At this point, we've already exceeded the 32-bit INTEGER size of most databases, so we'll have to use a 64-bit number which will fit into the BIGINT datatype.</p>
+
+<p>In order to compose a single integer from multiple components, we'll bit-shift each one to the left, making room for the next. By shifting the timestamp first it becomes the most significant component of the number, with a few advantages:</p>
+
+<ul>
+<li>The timestamp can always be extracted from the key by shifting right.  A creation TIMESTAMP column is likely something you'll have anyway.  It softens the blow of having such a large key if you can eliminate an entire column.</li>
+<li>By making the timestamp the most significant part of the number, it guarantees that the rows can be ordered by their creation time.  This will also allow any indexes to be added sequentially, rather than having to insert them in-place.</li>
+</ul>
+
+
+<p>The shift:</p>
 
 <pre><code class="python" style="font-size:.9em">>>> bin(1346472000000 << 23)
 '0b1001110010111111111111100001110100000000000000000000000000000000'</code></pre>
@@ -101,7 +108,9 @@ See:</p>
 </ul>
 
 
-<p>Of course, you could always tweak the number of bits you use for each component to suit your needs.  So, our componets are:</p>
+<p>Of course, you could always tweak the number of bits you use for each component to suit your needs.</p>
+
+<p>To review, our components are:</p>
 
 <ul>
 <li>A 41-bit timestamp shifted left by 23 bits</li>
@@ -110,7 +119,7 @@ See:</p>
 </ul>
 
 
-<p>In order to combine these into a single integer, we can simply add them together. Since we specifically shifted bits out of the way of each other, you could alo perform a bitwise AND to get the same result.</p>
+<p>In order to combine these into a single integer, we can simply add them together. Since we specifically shifted bits out of the way of each other, a bitwise AND will yield the same result.</p>
 
 <p>First, lets try it with some easy-to-test values:</p>
 
@@ -122,9 +131,9 @@ See:</p>
 '0b1001110010111111111111100001110100000000011111111111111111111111'</code></pre>
 
 
-<p>As you can see, the number is correctly divided at the 23 and 13 bit places.</p>
+<p>As you can see, the number is correctly segmented at the 23 and 13 bit places.</p>
 
-<p>So let's put this into a single function:</p>
+<p>Combining it all into a single, simple function:</p>
 
 <pre><code class="python" style="font-size:.9em">def nonsequential_key(generator_id):
     now = int(time.time()*1000)
@@ -132,7 +141,7 @@ See:</p>
     return ((now << 23) + (generator_id << 13) + rdm)</code></pre>
 
 
-<p>Here it is in action (showing the returned decimal integer values):</p>
+<p>Finally, here it is in action (showing the returned decimal integer values):</p>
 
 <pre><code class="python" style="font-size:.9em">>>> nskey.nonsequential_key(1)
 11402993483053546203L
@@ -155,11 +164,18 @@ See:</p>
         <script src="js/main.js"></script>
 
         <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
-        <script>
-            var _gaq=[['_setAccount','UA-XXXXX-X'],['_trackPageview']];
-            (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
-            g.src=('https:'==location.protocol?'//ssl':'//www')+'.google-analytics.com/ga.js';
-            s.parentNode.insertBefore(g,s)}(document,'script'));
+        <script type="text/javascript">
+
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-25868864-1']);
+        _gaq.push(['_trackPageview']);
+
+        (function() {
+            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })();
+
         </script>
     </body>
 </html>

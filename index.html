@@ -30,11 +30,12 @@
             <header id="global">
                 <span id="blog-title">Eric Mittelhammer</span>
                 <ul id="social">
-                    <li><i class="icon-envelope-alt"></i></li>
-                    <li><i class="icon-twitter"></i></li>
-                    <li><i class="icon-github"></i></li>
-                    <li><i class="icon-linkedin"></i></li>
-                </ul>
+                    <li><script type="text/javascript">
+                    document.write("<a href=\"mail" + "to:" + new Array("blog","ericmittelhammer.com").join("@") + "\">" + "<i class=\"icon-envelope-alt\"></i>" + "</" + "a>");
+                </script></li>
+                <li><a href="http://twitter.com/emittelhammer"><i class="icon-twitter"></i></a></li>
+                <li><a href="https://github.com/ericmittelhammer"><i class="icon-github"></i></a></li>
+            </ul>
             </header>   
             <div class="content">
             <!-- Add your site or application content here -->
@@ -44,7 +45,7 @@
       	<div class="post-content">
 		 	<h2 class="mainpage-post-title">Generating Nonsequential Primary Keys</h2>
 		 	<hr/>
-		 	<p><p>Auto-incremented primary keys are nearly ubiquitous in DBMSs.  But for multi-master or sharded systems, they introduce the possibility (certainty?) of collision.   They are also sequential, and therefore, guessable - which is not always ideal.  Here's a pretty simple way to create nonsequential unique keys accross your entire system.</p>
+		 	<p><p>Auto-incremented primary keys are nearly ubiquitous in DBMSs.  But for multi-master or sharded systems, they introduce the possibility (certainty?) of collision.   They are also sequential, and therefore, predictable - which is not always ideal.  Here's a pretty simple way to create nonsequential unique keys accross your entire system.</p>
 
 </p>
 		 	<p><a href="/generating-nonsequential-primary-keys">More...</a></p>
@@ -60,11 +61,18 @@
         <script src="js/main.js"></script>
 
         <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
-        <script>
-            var _gaq=[['_setAccount','UA-XXXXX-X'],['_trackPageview']];
-            (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
-            g.src=('https:'==location.protocol?'//ssl':'//www')+'.google-analytics.com/ga.js';
-            s.parentNode.insertBefore(g,s)}(document,'script'));
+        <script type="text/javascript">
+
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-25868864-1']);
+        _gaq.push(['_trackPageview']);
+
+        (function() {
+            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })();
+
         </script>
     </body>
 </html>

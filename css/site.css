@@ -52,7 +52,12 @@ ul#social li{
 	display:inline;
 }
 
-ul#social li:hover{
+ul#social li a{
+	text-decoration: none;
+	color:#fff;
+}
+
+ul#social li a:hover{
 	color:#666;
 }
 
