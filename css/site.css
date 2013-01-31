@@ -13,12 +13,20 @@ body{
 		width:800px;
 		margin: 40px auto 0 auto;
 	}
+
+	div.post-content {
+		padding: 20px 80px;
+	}
 }
 
 @media all and (max-width: 799px) {
 	div#main {
 		position:relative;
-		margin: 40px;
+		margin: 0px;
+		width:100%;
+	}
+	div.post-content {
+		padding: 10px 40px;
 	}
 }
 
@@ -76,10 +84,6 @@ div.post div.hero{
 div.her img {
 	max-height:100%;
 	margin:auto;
-}
-
-div.post-content {
-	padding: 20px 80px;
 }
 
 div.content hr{
