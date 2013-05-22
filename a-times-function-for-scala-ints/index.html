@@ -44,7 +44,7 @@
   	<div class="post-content">
 	    <h1 class="post-title">A "times" function for Scala Ints</h1>
 	    <hr/>
-	    <p><p>Unlike Ruby, Scala lacks a "times" looping construct.  Now, you may deem such a thing superfluous given the language's myriad iteration methods, but that doesn't mean it still isn't fun to tell some Ruby fanboi to STFU.  With Scala's implicit conversions, you are armed with the tools to do just that.</p>
+	    <p><p>Unlike Ruby, Scala lacks a "times" looping construct.  Given the language's myriad iteration methods, you may deem such a thing superfluous.  But that doesn't mean it still isn't fun to tell some Ruby fanboi to STFU!  With Scala's implicit conversions, you are armed with the tools to do just that.</p>
 
 <!--more-->
 
@@ -62,7 +62,7 @@ object IntWithTimesFunction {
 </code></pre>
 
 
-<p>Take a look at the IntWithTimesFunction companion object.  See that implicit def?  If the compiler encounters a type mismatch, it will first check the current import scope for an implicitly defined function that takes the "bad" type as it's only parameter and returns an instance of the "good" type.</p>
+<p>Take a look at the IntWithTimesFunction companion object.  See that implicit def?  If the compiler encounters a type mismatch, it will check the current import scope for an implicitly defined function that takes the "bad" type as its only parameter and returns an instance of the "good" type.  If it can find one, it will use it to convert the object to the correct type.</p>
 
 <p>So while you normally can't do this:</p>
 
@@ -95,8 +95,8 @@ goop
 <pre><code class="scala">def times(f: => Any): Unit = for (i <- 0 until limit) f</code></pre>
 
 
-<p>See the parameter list for the function?  Slighty strange notation.  This is Scala's call-by-name paradigm.  It causes any expression that appears as a function argument to be evaluated at the time it's used within the function, where normally it would be evaluted first and its result passed into the function.
-So, given the signature above, every time "f" appears in the times function - whatver was passed as that argument will be evaluated again.</p>
+<p>See the parameter list for the function?  Slighty strange notation.  This is Scala's call-by-name paradigm.  It causes any expression that appears as a function argument to be evaluated at the time its used within the function, where normally it would be evaluated first and its <em>result</em> passed into the function.
+So given the signature above, every time "f" appears in the "times" function - whatever was passed as that argument will be evaluated again.</p>
 
 <p>Now we'll add a function to IntWithTimesFunction that provides access to the loop index:</p>
 
@@ -106,7 +106,7 @@ So, given the signature above, every time "f" appears in the times function - wh
 }</code></pre>
 
 
-<p>Slighty different here.  This one takes another function as a parameter.  Now that function must take a single Int (the loop index) as a parameter and return Unit.  The <a href="http://www.scala-lang.org/api/current/index.html#scala.collection.immutable.Range">foreach function</a> will pass the current element in the range into function f, like so:</p>
+<p>Slighty different here.  This one takes another function as a parameter which itself must take a single Int (the loop index) as a parameter.  The <a href="http://www.scala-lang.org/api/current/index.html#scala.collection.immutable.Range">foreach function</a> will pass the current element in the range into function f, like so:</p>
 
 <pre><code class="scala">scala> 5 timesWithIndex (x => println(x + 3) )
 3

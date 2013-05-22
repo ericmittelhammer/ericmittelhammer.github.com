@@ -1,8 +1,13 @@
+html{
+	padding:0;
+}
+
 body{
 	/*background-image: url(../img/honey_im_subtle.png);*/
 	background-repeat: repeat;
 	background-attachment: fixed;
 	padding-top:0;
+	margin: 0;
 	font-family: 'Lato', sans-serif;
 	color:#444;
 	font-size:1.25em;
@@ -23,8 +28,8 @@ body{
 	}
 
 	div.content{
-		margin-left:160px;
-		border-left: 2px solid #efefef;
+		margin:0 0 0 160px;
+		border-left: 1px solid #ccc;
 		padding-left:30px;
 	}
 
