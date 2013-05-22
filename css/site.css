@@ -1,49 +1,70 @@
 body{
-	background-image: url(../img/honey_im_subtle.png);
+	/*background-image: url(../img/honey_im_subtle.png);*/
 	background-repeat: repeat;
 	background-attachment: fixed;
 	padding-top:0;
-	font-family: 'Open Sans', sans-serif;
+	font-family: 'Lato', sans-serif;
 	color:#444;
+	font-size:1.25em;
 }
+
 
 @media all and (min-width: 800px) {
 	div#main {
 		position:relative;
-		width:800px;
-		margin: 40px auto 0 auto;
+		max-width:1000px;
+		margin: 0 auto;
 	}
 
-	div.post-content {
-		padding: 20px 80px;
+	header#global{
+		position:fixed;
+		max-width:160px;
+		padding-top:60px;
 	}
+
+	div.content{
+		margin-left:160px;
+		border-left: 2px solid #efefef;
+		padding-left:30px;
+	}
+
+
 }
 
 @media all and (max-width: 799px) {
 	div#main {
 		position:relative;
-		margin: 0px;
 		width:100%;
 	}
-	div.post-content {
-		padding: 10px 40px;
+
+	div.content {
+		padding:20px;
+	}
+
+	h1.post-title, h2.mainpage-post-title {
+		text-align:center;
 	}
 }
 
+
 header#global{
-	background-color: #000;
-	color:#fff;
 	/*width: 100%;*/
-	padding:30px;
 	text-align: center;
 }
 
-span#blog-title{
+header#global p.about{
+	font-size: .75em;
+	font-style: italic;
+}
+
+a#blog-title, a#blog-title:visited{
 	font-weight: bold;
-	font-size: 32px;
+	font-size:1em;
 	margin-top: 0;
 	margin-bottom: 0;
 	display:block;
+	color:#000;
+	text-decoration: none;
 }
 
 
@@ -51,9 +72,6 @@ span#blog-title{
 ul#social{
 	list-style-type: none;
 	padding:0;
-	position: absolute;
-	top:0;
-	right:30px;
 }
 
 ul#social li{
@@ -62,11 +80,11 @@ ul#social li{
 
 ul#social li a{
 	text-decoration: none;
-	color:#fff;
+	color:#666;
 }
 
 ul#social li a:hover{
-	color:#666;
+	color:#000;
 }
 
 div.content{
@@ -91,7 +109,18 @@ div.content hr{
 }
 
 h1.post-title, h2.mainpage-post-title {
-	font-size:26px;
+	font-size:32px;
+}
+
+h2.mainpage-post-title a, h2.mainpage-post-title a:visited {
+	text-decoration: none;
+	color: #444;
+}
+
+pre code {
+	background-color: #222;
+	border-radius: 5px;
+	font-size:.75em;
 }
 
 /*h1,h2,h3,h4,h5,h6{

@@ -6,7 +6,7 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-        <title>Eric Mittelhammer</title>
+        <title>A "times" function for Scala Ints</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width">
 
@@ -40,31 +40,86 @@
             </header>   
             <div class="content">
             <!-- Add your site or application content here -->
-                  
-      <div class="post">
-      	
-      	<div class="post-content">
-		 	<h2 class="mainpage-post-title"><a href="/a-times-function-for-scala-ints">A "times" function for Scala Ints</a></h2>
-		 	<hr/>
-		 	<p><p>Unlike Ruby, Scala lacks a "times" looping construct.  Now, you may deem such a thing superfluous given the language's myriad iteration methods, but that doesn't mean it still isn't fun to tell some Ruby fanboi to STFU.  Using Scala's implicit conversions, you are armed with the tools to do just that.</p>
+              <div id="post">
+  	<div class="post-content">
+	    <h1 class="post-title">A "times" function for Scala Ints</h1>
+	    <hr/>
+	    <p><p>Unlike Ruby, Scala lacks a "times" looping construct.  Now, you may deem such a thing superfluous given the language's myriad iteration methods, but that doesn't mean it still isn't fun to tell some Ruby fanboi to STFU.  Using Scala's implicit conversions, you are armed with the tools to do just that.</p>
 
-</p>
-		 	<p><a href="/a-times-function-for-scala-ints">More...</a></p>
-		</div>
-      </div>
-      
-      <div class="post">
-      	
-      	<div class="post-content">
-		 	<h2 class="mainpage-post-title"><a href="/generating-nonsequential-primary-keys">Generating Nonsequential Primary Keys</a></h2>
-		 	<hr/>
-		 	<p><p>Auto-incremented primary keys are nearly ubiquitous in DBMSs.  But for multi-master or sharded systems, they introduce the possibility (certainty?) of collision.   They are also sequential, and therefore, predictable - which is not always ideal.  Here's a pretty simple way to create nonsequential unique keys accross your entire system.</p>
+<!--more-->
 
+
+<p>Ah, implicits.  Scala's secret ingredient in the <a href="http://www.artima.com/weblogs/viewpost.jsp?thread=179766">library-pimping</a> sauce.  Part sorcery, part FP nerd-fu.  Some say they make code hard to read, but they let you teach old classes new tricks. And teach we shall.</p>
+
+<p>Do this:</p>
+
+<pre><code class="scala">class IntWithTimesFunction(limit: Int) {
+    def times(f: => Any): Unit = for (i <- 0 until limit) f
+}
+object IntWithTimesFunction {
+    implicit def convertIntToIwtf(i: Int) = new IntWithTimesFunction(i)
+}
+</code></pre>
+
+
+<p>Take a look at the IntWithTimesFunction companion object.  See that implicit def?  If the compiler encounters a type mismatch, it will first check the current import scope for an implicitly defined function that takes the "bad" type as it's only parameter and returns an instance of the "good" type.</p>
+
+<p>So while you normally can't do this:</p>
+
+<pre><code class="scala">scala&gt; val i = 5
+i: Int = 5
+
+scala&gt; i.times
+<console>:9: error: value times is not a member of Int
+              i.times</code></pre>
+
+
+<p>Behold the magic of implicit conversions:</p>
+
+<pre><code class="scala">scala&gt; import IntWithTimesFunction._
+import IntWithTimesFunction._
+
+scala&gt; 5 times println("goop")
+goop
+goop
+goop
+goop
+goop
+</code></pre>
+
+
+<p>Get it?</p>
+
+<p>Here's how the times function works:</p>
+
+<pre><code class="scala">def times(f: => Any): Unit = for (i <- 0 until limit) f</code></pre>
+
+
+<p>See the parameter list for the function?  Slighty strange notation.  This is Scala's call-by-name paradigm.  It causes any expression that appears as a function argument to be evaluated at the time it's used within the function, where normally it would be evaluted first and its result passed into the function.
+So, given the signature above, every time "f" appears in the times function - whatver was passed as that argument will be evaluated again.</p>
+
+<p>Now we'll add a function to IntWithTimesFunction that provides access to the loop index:</p>
+
+<pre><code class="scala">class IntWithTimesFunction(limit: Int) {
+    def times(f: => Any): Unit = for (i <- 0 until limit) f
+    def timesWithIndex(f: Int => Unit): Unit = 0 until limit foreach f
+}</code></pre>
+
+
+<p>Slighty different here.  This one takes another function as a parameter.  Now that function must take a single Int (the loop index) as a parameter and return Unit.  The <a href="http://www.scala-lang.org/api/current/index.html#scala.collection.immutable.Range">foreach function</a> will pass the current element in the range into function f, like so:</p>
+
+<pre><code class="scala">scala> 5 timesWithIndex (x => println(x + 3) )
+3
+4
+5
+6
+7</code></pre>
+
+
+<p>So, Scala devs, don't let those Ruby dudes push you around any longer!  With just a bit of functional magic your language can be just as unnecessarily verbose.</p>
 </p>
-		 	<p><a href="/generating-nonsequential-primary-keys">More...</a></p>
-		</div>
-      </div>
-      
+	</div>
+  </div>
 
             </div>
         </div>

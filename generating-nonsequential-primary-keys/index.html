@@ -14,12 +14,12 @@
 
         <link rel="stylesheet" href="/css/normalize.css">
         <link rel="stylesheet" href="/css/main.css">
-        <link rel="stylesheet" href="/css/site.css">
         <link rel="stylesheet" href="/css/font-awesome.min.css">
-        <link href='http://fonts.googleapis.com/css?family=Ubuntu:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
-        <link href='http://fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,400,700' rel='stylesheet' type='text/css'>
-        <link rel="stylesheet" href="http://yandex.st/highlightjs/7.3/styles/default.min.css">
+        <link href='http://fonts.googleapis.com/css?family=Lato:400italic,700italic,400,700' rel='stylesheet' type='text/css'>
+        <link rel="stylesheet" href="http://yandex.st/highlightjs/7.3/styles/sunburst.min.css">
+        <link rel="stylesheet" href="/css/site.css">
         <script src="http://yandex.st/highlightjs/7.3/highlight.min.js"></script>
+        <script>hljs.initHighlightingOnLoad();</script>
         <script src="js/vendor/modernizr-2.6.2.min.js"></script>
     </head>
     <body>
@@ -28,7 +28,8 @@
         <![endif]-->
         <div id="main">
             <header id="global">
-                <span id="blog-title">Eric Mittelhammer</span>
+                <a href="/" id="blog-title">Eric Mittelhammer</a>
+                <p class="about">Software guy doing software things.</p>
                 <ul id="social">
                     <li><script type="text/javascript">
                     document.write("<a href=\"mail" + "to:" + new Array("blog","ericmittelhammer.com").join("@") + "\">" + "<i class=\"icon-envelope-alt\"></i>" + "</" + "a>");
@@ -103,7 +104,7 @@ See:</p>
 <p>That leaves 23 bits for the other components of the number.  We'll do as follows:</p>
 
 <ul>
-<li>10 bits for the generator ID.  This gives us 2<sup>10</sup>-1 (or 1023) possible IDs.  That should be plenty.  If you are running a cluster of more than 1023 nodes, I suspect you're not looking to the blogosphere for your key generation scheme.</li>
+<li>10 bits for the generator ID.  This gives us 2<sup>10</sup>-1 (or 1023) possible IDs.  That should be plenty.  If you are running a cluster of more than 1023 nodes, I suspect you're not looking to the blogosphere for your key generation scheme.  This is also a good place for a shard ID if you are saving out ot a shrded cluster.</li>
 <li>The remaining 13 bits for a random number - That's between 1 and 8191.  Again; if you are generating more than 8000 ids per millisecond, per node, you probably don't need <em>my</em> help.</li>
 </ul>
 
