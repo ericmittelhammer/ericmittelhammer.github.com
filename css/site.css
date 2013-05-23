@@ -28,9 +28,10 @@ body{
 	}
 
 	div.content{
-		margin:0 0 0 160px;
+		margin: 40px 0 0 160px;
 		border-left: 1px solid #ccc;
 		padding-left:30px;
+		padding-top:40px;
 	}
 
 
@@ -123,6 +124,7 @@ h2.mainpage-post-title a, h2.mainpage-post-title a:visited {
 }
 
 pre code {
+	padding: 20px;
 	background-color: #222;
 	border-radius: 5px;
 	font-size:.75em;
