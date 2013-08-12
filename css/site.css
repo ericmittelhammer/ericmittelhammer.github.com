@@ -14,10 +14,10 @@ body{
 }
 
 
-@media all and (min-width: 800px) {
+@media all and (min-width: 970px) {
 	div#main {
 		position:relative;
-		max-width:1000px;
+		max-width:1200px;
 		margin: 0 auto;
 	}
 
@@ -37,7 +37,7 @@ body{
 
 }
 
-@media all and (max-width: 799px) {
+@media all and (max-width: 969px) {
 	div#main {
 		position:relative;
 		width:100%;

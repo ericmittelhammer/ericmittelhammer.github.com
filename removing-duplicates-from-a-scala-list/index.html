@@ -6,7 +6,7 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-        <title>Removing duplicates in a Scala List</title>
+        <title>Removing duplicates from a Scala List</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width">
 
@@ -42,7 +42,7 @@
             <!-- Add your site or application content here -->
               <div id="post">
   	<div class="post-content">
-	    <h1 class="post-title">Removing duplicates in a Scala List</h1>
+	    <h1 class="post-title">Removing duplicates from a Scala List</h1>
 	    <hr/>
 	    <p><p>First things first - there are faster ways to dedupe a list than what I'm going to do here. So please resist the urge to nerd-rage on me about how "OMG THIS IS SO SLOW!"</p>
 
@@ -75,10 +75,10 @@ res0: scala.collection.immutable.Set[Char] = Set(c, b, g)</code></pre>
 <pre><code class="scala">import scala.annotation.tailrec
 
 def dedupe[T](elements: List[T], predicate: (T, T) => Boolean = (a: T, b: T) => { a == b }): List[T] = {
-    @tailrec def recurse(raw: List[T], deduped: List[T]): List[T] = 
+    @tailrec def recur(raw: List[T], deduped: List[T]): List[T] = 
         raw match {
             case Nil => deduped // no more raw elements to process, just return the final deduped list
-            case head :: tail => recurse(tail, 
+            case head :: tail => recur(tail, 
                 deduped.exists(predicate(_, head)) match {
                     case true => deduped  //element is in the list, just use the deduped list as-is
                     case false => head :: deduped //not in the list, so add it.
