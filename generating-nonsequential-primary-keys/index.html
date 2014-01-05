@@ -106,19 +106,13 @@ See:</p>
     rdm = random.randint(1, 8191)
     return ((now << 23) + (generator_id << 13) + rdm)</code></pre>
 
-<p>Finally, here it is in action (showing the returned decimal integer values):
-<pre><code class="python" style="font-size:.9em">&gt;&gt;&gt; nskey.nonsequential_key(1)
-11402993483053546203L</p>
-<blockquote>
-<blockquote>
-<blockquote>
-<p>nskey.nonsequential_key(1)
+<p>Finally, here it is in action (showing the returned decimal integer values)</p>
+<pre><code class="python" style="font-size:.9em">>>> nskey.nonsequential_key(1)
+11402993483053546203L
+>>> nskey.nonsequential_key(1)
 11402993501995022952L
-nskey.nonsequential_key(1)
+>>> nskey.nonsequential_key(1)
 11402993515760721961L</code></pre></p>
-</blockquote>
-</blockquote>
-</blockquote></p>
 	</div>
   </div>
             </div>
