@@ -6,7 +6,7 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-        <title>Removing duplicates from a Scala List</title>
+        <title></title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width">
 
@@ -40,38 +40,23 @@
             </header>   
             <div class="content">
             <!-- Add your site or application content here -->
-              <div id="post">
+  <div id="post">
   	<div class="post-content">
 	    <h1 class="post-title">Removing duplicates from a Scala List</h1>
 	    <hr/>
-	    <p><p>First things first - there are faster ways to dedupe a list than what I'm going to do here. So please resist the urge to nerd-rage on me about how "OMG THIS IS SO SLOW!"</p>
-
-<!--more-->
-
-
+	    <p><p>First things first - there are faster ways to dedupe a list than what I'm going to do here. So please resist the urge to nerd-rage on me about how "OMG THIS IS SO SLOW!"
+</p>
 <p>The fastest way would probably be to just turn it into a set:</p>
-
 <pre><code class="scala">scala> List(3,3,3,3,2,2,2,2,6,6,6,6,9,9,9,9,9,5,5,5,5,4,4,4,4,4).toSet
 res0: scala.collection.immutable.Set[Int] = Set(5, 6, 9, 2, 3, 4)</code></pre>
 
-
 <p>But as you can see, the original ordering of the elements is not preserved.</p>
-
-<p>So what you probably <em>should</em> be doing is just using a set as you create your collection:</p>
-
-<pre><code class="scala">scala> val s = Set('c', 'b', 'g')
-s: scala.collection.immutable.Set[Char] = Set(c, b, g)
-
-scala> s + 'b'
-res0: scala.collection.immutable.Set[Char] = Set(c, b, g)</code></pre>
-
-
-<p>I know, I know - If a frog had wings...</p>
+<p>In fact, immutable sets won't preserve their order as you append elements to them:</p>
+<pre><code class="scala">scala> Set(1,2,3,4,5) + 6
+res1: scala.collection.immutable.Set[Int] = Set(4, 5, 6, 1, 2, 3)</code></pre>
 
 <p>So, you've got a list and you just need to dedupe it while preserving the original ordering of the elements.</p>
-
 <p>Here's how:</p>
-
 <pre><code class="scala">import scala.annotation.tailrec
 
 def dedupe[T](elements: List[T], predicate: (T, T) => Boolean = (a: T, b: T) => { a == b }): List[T] = {
@@ -85,27 +70,18 @@ def dedupe[T](elements: List[T], predicate: (T, T) => Boolean = (a: T, b: T) => 
                 })
         }
     // head/tail/cons are constant time operations but end up reversing the list.  undo that in a single operation before returning
-    recurse(elements, Nil).reverse 
+    recur(elements, Nil).reverse 
 }</code></pre>
 
-
 <p>Inner defs, pattern matching, first-class funcitons.  Whoa Scala!</p>
-
 <p>I'll break down what's going on here-
-The method signature takes a list of <code>T</code>'s and a predicate function used to determine if two elements in the list are duplicate - an optional argument whose default value is function a that simply compares them with ==.</p>
-
+The method signature takes a list of <code>T</code>'s and a predicate function used to determine if two elements in the list are duplicate - an optional argument whose default value is function a that simply compares them with ==.  </p>
 <p>Each iteration of the function determines if the head element exists in the accumuator. If not, it will cons (prepend) it and call itself, this time with the tail of the unprocessed list.  Since we're using the constant-time operations head/tail/cons, we must reverse the entire result before returning it.</p>
-
-<p>See:</p>
-
-<pre><code class="scala">scala> dedupe(List(3,3,3,3,2,2,2,2,6,6,6,6,9,9,9,9,9,5,5,5,5,4,4,4,4,4))
+<p>See:
+<pre><code class="scala">scala&gt; dedupe(List(3,3,3,3,2,2,2,2,6,6,6,6,9,9,9,9,9,5,5,5,5,4,4,4,4,4))
 res10: List[Int] = List(3, 2, 6, 9, 5, 4)</code></pre>
-
-
-<p>Original order preserved!</p>
-
+Original order preserved!</p>
 <p>And by using the "exists" method on the list instead of "contains", we can provide our own predicate:</p>
-
 <pre><code class="scala">scala> case class Person(name: String, age:Int)
 defined class Person
 
@@ -115,12 +91,10 @@ l: List[Person] = List(Person(Bob,20), Person(Sue,25), Person(Mary,20), Person(A
 scala> dedupe(l, (a:Person, b:Person) => a.age == b.age)
 res0: List[Person] = List(Person(Bob,20), Person(Sue,25), Person(Alice,29))</code></pre>
 
-
-<p>Just beware that this function performs at <em>O(n<sup>2</sup>)</em> since every item could possibly be comapred against every other item in the list.</p>
-</p>
+<p>We're deduping by age.  Since Bob was in the list first, he remains and Mary is gone.</p>
+<p>Just beware that this function performs at <em>O(n<sup>2</sup>)</em> since every item could possibly be comapred against every other item in the list.</p></p>
 	</div>
   </div>
-
             </div>
         </div>
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>

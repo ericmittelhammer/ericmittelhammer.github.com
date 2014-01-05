@@ -6,7 +6,7 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-        <title>A "times" function for Scala Ints</title>
+        <title></title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width">
 
@@ -40,32 +40,23 @@
             </header>   
             <div class="content">
             <!-- Add your site or application content here -->
-              <div id="post">
+  <div id="post">
   	<div class="post-content">
 	    <h1 class="post-title">A "times" function for Scala Ints</h1>
 	    <hr/>
-	    <p><p>We all know how hyper-rad it is to write code that <a href="http://mislav.uniqpath.com/poignant-guide/book/chapter-3.html">reads like prose</a>.  But those stodgy old squares at Typesafe left iteration out of the Int API! Luckily, they did give us the tools to DIY our way to coding coolness.</p>
-
-<!--more-->
-
-
-<p>Ah, implicits.  Scala's secret ingredient in the <a href="http://www.artima.com/weblogs/viewpost.jsp?thread=179766">library-pimping</a> sauce.  Part sorcery, part FP nerd-fu.  Some say they make code hard to read, but they let you teach old classes new tricks. And teach we shall.</p>
-
-<p>Do this:</p>
-
+	    <p><p>We all know how hyper-rad it is to write code that <a href="http://mislav.uniqpath.com/poignant-guide/book/chapter-3.html">reads like prose</a>.  But those stodgy old squares at Typesafe left iteration out of the Int API! Luckily, they did give us the tools to DIY our way to coding coolness.
+</p>
+<p>Ah, implicits.  Scala's secret ingredient in the <a href="http://www.artima.com/weblogs/viewpost.jsp?thread=179766">library-pimping</a> sauce.  Part sorcery, part FP nerd-fu.  Some say they make code hard to read, but they let you teach old classes new tricks. And teach we shall.  </p>
+<p>Do this: <br />
 <pre><code class="scala">class IntWithTimesFunction(limit: Int) {
-    def times(f: => Any): Unit = for (i <- 0 until limit) f
+    def times(f: =&gt; Any): Unit = for (i &lt;- 0 until limit) f
 }
 object IntWithTimesFunction {
     implicit def convertIntToIwtf(i: Int) = new IntWithTimesFunction(i)
 }
-</code></pre>
-
-
+</code></pre></p>
 <p>Take a look at the IntWithTimesFunction companion object.  See that implicit def?  If the compiler encounters a type mismatch, it will check the current import scope for an implicitly defined function that takes the "bad" type as its only parameter and returns an instance of the "good" type.  If it can find one, it will use it to convert the object to the correct type.</p>
-
 <p>So while you normally can't do this:</p>
-
 <pre><code class="scala">scala&gt; val i = 5
 i: Int = 5
 
@@ -73,9 +64,7 @@ scala&gt; i.times
 <console>:9: error: value times is not a member of Int
               i.times</code></pre>
 
-
 <p>Behold the magic of implicit conversions:</p>
-
 <pre><code class="scala">scala&gt; import IntWithTimesFunction._
 import IntWithTimesFunction._
 
@@ -87,27 +76,17 @@ goop
 goop
 </code></pre>
 
-
 <p>Get it?</p>
-
-<p>Here's how the times function works:</p>
-
-<pre><code class="scala">def times(f: => Any): Unit = for (i <- 0 until limit) f</code></pre>
-
-
-<p>See the parameter list for the function?  Slighty strange notation.  This is Scala's call-by-name paradigm.  It causes any expression supplied as a function argument to be evaluated when used within the function, where normally it would be evaluated first and its <em>result</em> passed into the function.
+<p>Here's how the times function works:
+<pre><code class="scala">def times(f: =&gt; Any): Unit = for (i &lt;- 0 until limit) f</code></pre>
+See the parameter list for the function?  Slighty strange notation.  This is Scala's call-by-name paradigm.  It causes any expression supplied as a function argument to be evaluated when used within the function, where normally it would be evaluated first and its <em>result</em> passed into the function.
 So given the signature above, every time "f" appears in the "times" function - whatever was passed as that argument will be evaluated again.</p>
-
-<p>Now we'll add a function to IntWithTimesFunction that provides access to the loop index:</p>
-
+<p>Now we'll add a function to IntWithTimesFunction that provides access to the loop index:
 <pre><code class="scala">class IntWithTimesFunction(limit: Int) {
-    def times(f: => Any): Unit = for (i <- 0 until limit) f
-    def timesWithIndex(f: Int => Unit): Unit = 0 until limit foreach f
-}</code></pre>
-
-
+    def times(f: =&gt; Any): Unit = for (i &lt;- 0 until limit) f
+    def timesWithIndex(f: Int =&gt; Unit): Unit = 0 until limit foreach f
+}</code></pre></p>
 <p>Slighty different here.  This one takes another function as a parameter which itself must take a single Int (the loop index) as a parameter.  The <a href="http://www.scala-lang.org/api/current/index.html#scala.collection.immutable.Range">foreach function</a> will pass the current element in the range into function f, like so:</p>
-
 <pre><code class="scala">scala> 5 timesWithIndex (x => println(x + 3) )
 3
 4
@@ -115,12 +94,9 @@ So given the signature above, every time "f" appears in the "times" function - w
 6
 7</code></pre>
 
-
-<p>So, Scala devs, gone are the days of feeling inferior in the presence of those self-important Ruby fanbois!  With just a bit of functional magic your language can be just as unnecessarily verbose.</p>
-</p>
+<p>So, Scala devs, gone are the days of feeling inferior in the presence of those self-important Ruby fanbois!  With just a bit of functional magic your language can be just as unnecessarily verbose.</p></p>
 	</div>
   </div>
-
             </div>
         </div>
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
