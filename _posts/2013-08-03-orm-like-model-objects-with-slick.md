@@ -4,7 +4,7 @@ title:      "ORM-like model objects with Slick"
 subtitle:   "A familiar pattern for CRUD-like functionality."
 date:       2013-08-03 12:00:00
 author:     "Eric Mittelhammer"
-header-img: "img/post-bg-01.jpg"
+header-img: "img/concrete.jpg"
 ---
 
 At Gawker Media, we've been making a hard push to convert the entirety of our data layer to use Slick - Typesafe's data access library.
