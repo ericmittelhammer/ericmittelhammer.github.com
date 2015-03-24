@@ -1,0 +1,52 @@
+# Site settings
+title:       Eric Mittelhammer
+email:       emittelhammer@gmail.com
+author:      Eric Mittelhammer
+description: "Software guy doing software things."
+baseurl:     ""
+url:         "http://ericmittelhammer.com"
+
+# Google analytics
+google_analytics: UA-25868864-1
+
+# Optional features
+animated:           false
+show_related_posts: false
+show_post_footers:  false
+
+# Disqus post comments
+# (leave blank to disable Disqus)
+disqus_shortname:
+
+# Social icons
+show_social_icons: true
+github_username: ericmittelhammer
+stackoverflow_id:
+twitter_username: emittelhammer
+google_plus_id:
+linkedin_username:
+bitcoin_url:
+paypal_url:
+flattr_button:
+
+# Post sharing icons
+show_sharing_icons: true
+# share_text: 'Share.'
+# Change to 'true' to enable individual icons
+share_facebook: true
+share_twitter: true
+share_googleplus: true
+share_linkedin: true
+share_digg: false
+share_tumblr: false
+share_reddit: true
+share_stumbleupon: false
+
+# Build settings
+markdown:     kramdown
+redcarpet:
+  extensions: ['smart', 'tables', 'with_toc_data']
+permalink:    none
+paginate:     5
+sass:
+  compressed: true
