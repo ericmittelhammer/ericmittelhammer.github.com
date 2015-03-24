@@ -150,7 +150,7 @@ Alright so let's run through all of this and see how it would work:
 3. It queries the stream and sees that there are four shards. It creates a CounterRecordProcesser for each of them and begins pulling records from the stream, calling your `processRecords` method with them.  It uses the  DynamoDB table to record which Sequence Numbers it has processed to provide to `GetShardIterator` requests.  Note that the very first time this runs, there are no processed records in the table, so it must call `GetShardIterator` with `InitialPositionInStream.LATEST`.
 3. The second Worker starts.  It sees that there is an existing DynamoDB table for this application and stream.  It also registers itself by writing to the table.
 4. Via the table, both workers discover each other and decide that since there are two of them, each should handle half of the shards.  The first worker shuts down two of its processors and the second process will create two to compensate.
-5. Both workers run continnuall
+5. Both workers run continually like this until one of them fails, in which case, the opposite of #4 happens.
 
 
 [^1]: You must provide a ShardIterator, which is an encoded string representing a Sequence Number and some other metadata.  It's retreived via the [GetShardIterator](http://docs.aws.amazon.com/kinesis/latest/APIReference/API_GetShardIterator.html) API call which can return an iterator either at the exact Sequence Number you provide, or at the begining or end of the shard.
