@@ -7,7 +7,7 @@ author:     "Eric Mittelhammer"
 header-img: "img/tools.jpg"
 ---
 
-The Amazonian marketing angle on Kinesis is pretty clear.  The [product page](http://aws.amazon.com/kinesis/) is a treasure trove of buzzwords: "Streaming", "Real-Time", "Parallel", "Magic" (ok i threw that one in there myself).  Great for CTOs, not so much for developers.  The documentation is a bit sparse as well.  All the good stuff is buried pretty deep and spread out amongst the developer guide, api reference, and client library documentation.  Hopefully this article will help you grok it all a little better.
+The Amazonian marketing angle on Kinesis is pretty clear.  The [product page](http://aws.amazon.com/kinesis/) is a treasure trove of buzzwords: "Streaming", "Real-Time", "Parallel", "Magic" (ok i threw that one in there myself).  Great for CTOs, not so much for developers.  The documentation is a bit sparse as well.  All the good stuff is buried pretty deep and is spread out amongst the developer guide, api reference, and client library documentation.  Hopefully this article will help you grok it all a little better.
 
 In order to understand what's going on under the hood, it will help to grasp the basic concepts.  Amazon does a pretty good job of laying them out for you in the [Getting Started documentation](http://aws.amazon.com/kinesis/getting-started/).
 
