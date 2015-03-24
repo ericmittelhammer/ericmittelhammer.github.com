@@ -1,6 +1,6 @@
 ---
 layout:     post
-title:      "Clustering blogs with TF-IDF"
+title:      "Clustering with TF-IDF"
 #subtitle:   "Subtitle here"
 date:       2014-06-14 9:00:00
 author:     "Eric Mittelhammer"

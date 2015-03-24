@@ -13,6 +13,7 @@ First, what are they? There's a thorough explanation in the Scala documentation,
 
 See these classes:
 
+{% highlight scala %}
     class Wrapper(i: Int)
 
     class ValueWrapper(val i: Int) extends AnyVal
@@ -20,10 +21,11 @@ See these classes:
     class MyClass1(i: Wrapper)
 
     class MyClass2(i: ValueWrapper)
-
+{% endhighlight %}
 
 Here's how they are compiled:
 
+{% highlight bash %}
     $ javap ./target/scala-2.10/classes/MyClass1.class
     Compiled from "Wrappers.scala"
     public class MyClass1 {
@@ -34,12 +36,13 @@ Here's how they are compiled:
     public class MyClass2 {
     public MyClass2(int);
     }
-
+{% endhighlight %}
 
 The Scala compiler will ensure that MyClass2 always takes a ValueWrapper, but will convert it to an int in the bytecode. What does this mean? Usually, not much - it all works seamlessly under the hood while saving you memory. Until you need to use reflection. Which you never, ever use, right? Unless, of course, you are trying to get a reference to an Akka actor.
 
 This code will compile:
 
+{% highlight scala %}
     class MyActor(i: ValueWrapper) extends Actor {
 
         override def receive = {
@@ -57,21 +60,24 @@ This code will compile:
         val actor = system.actorOf(Props(classOf[MyActor], vw))
 
     }
-
+{% endhighlight %}
 
 But it will fail at runtime:
 
+{% highlight bash %}
     [error] (run-main) java.lang.IllegalArgumentException: no matching constructor found on class MyActor for arguments [class ValueWrapper]
     java.lang.IllegalArgumentException: no matching constructor found on class MyActor for arguments [class ValueWrapper]
-
+    {% endhighlight %}
 This is frustrating because there obviously is a matching constructor, at compile time at least.
 
 This is what happens when we try to get a reference to MyActor:
 
+{% highlight bash %}
     scala> classOf[MyActor].getConstructor(classOf[ValueWrapper])
     java.lang.NoSuchMethodException: MyActor.<init>(ValueWrapper)
     at java.lang.Class.getConstructor0(Class.java:2810)
     at java.lang.Class.getConstructor(Class.java:1718)
+{% endhighlight %}
 
 Since the compiler has optimized the costructor to take the underlying primitive type, the relefctive call fails.
 

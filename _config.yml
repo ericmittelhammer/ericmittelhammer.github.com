@@ -7,7 +7,7 @@ baseurl:     ""
 url:         "http://ericmittelhammer.com"
 
 # Google analytics
-google_analytics:
+google_analytics: UA-25868864-1
 
 # Optional features
 animated:           false
@@ -47,6 +47,6 @@ markdown:     kramdown
 redcarpet:
   extensions: ['smart', 'tables', 'with_toc_data']
 permalink:    none
-paginate:     3
+paginate:     5
 sass:
   compressed: true
