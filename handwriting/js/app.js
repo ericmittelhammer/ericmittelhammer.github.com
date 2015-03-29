@@ -78,7 +78,7 @@ function reset() {
     sctx.fillStyle = "rgb(255,255,255)";
     sctx.fillRect(0, 0, sctx.canvas.width, sctx.canvas.height);
   });
-
+  $('#output .result').html('&nbsp;');
 };
 
 function findMin(dist) {
@@ -167,36 +167,5 @@ function runNet() {
   console.log("output", output);
   var winner = output.indexOf(Math.max.apply(null, output));
   // index of the winning neuron is the matched digit.  display it
-  $("#output").html(winner);
+  $("#output .result").html(winner);
 };  //runNet
-
-
-function renderTestSet() {
-  var digits = testData;
-  var canvas = document.getElementById('digits');
-  var canvasWidth = canvas.width;
-  var canvasHeight = canvas.height;
-  var ctx = canvas.getContext('2d');
-
-  var imageData = ctx.createImageData(canvasWidth, canvasHeight);
-
-  for (var d = 0; d < digits.length; d++) {
-    var digit = digits[d];
-    //console.log(digit);
-    startX = (d * 16) % canvasWidth;
-    startY = Math.floor(d * 16 / canvasWidth) * 16; //+ 16 ;
-    var limit = digit["input"].length;
-    //console.log(startX + "," + startY);
-    for (var pixel = 0; pixel < limit; pixel++) {
-      //var r,g,b;
-      //r=g=b= (1 - digit["input"][pixel]) * 255;
-      ctx.fillStyle = digit["input"][pixel] == 1 ? "rgb(0,0,0)" : "rgb(255,255,255)"
-      var x = startX + (pixel % 16);
-      var y = startY + Math.floor(pixel / 16);
-      //console.log("filling pixel " + x + "," + y);
-      ctx.fillRect(x, y, 1, 1);
-    }
-  }
-
-  //ctx.putImageData(imageData, 0, 0);
-}
