@@ -1,0 +1,55 @@
+<html>
+
+<head>
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.4/js/bootstrap.min.js"></link>
+  <script src="./js/jquery-2.1.1.min.js"></script>
+  <script src="./js/underscore-min.js"></script>
+  <script src="./js/brain-0.6.3.js"></script>
+  <script src="./js/app.js"></script>
+</head>
+
+<body>
+  <div class="container">
+    <div class="row">
+      <canvas id="board" width="200" height="200" style="float:left; border:1px solid black"></canvas>
+      <div id="buttons" style="float:left" class="col-md-2">
+        <button onclick="runNet()">Run</button>
+        <button onclick="reset()">Reset</button>
+      </div>
+      <div id="output" class="col-md-2" style="font-size:200px float:left"></div>
+      <table>
+        <thead>
+          <th>yours</th>
+          <th>hamming</th>
+          <th>jaccard</th>
+          <th>tanimoto</th>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <canvas id="yours" width="16" height="16"></canvas>
+            </td>
+            <td>
+              <canvas id="hamming" width="16" height="16"></canvas>
+            </td>
+            <td>
+              <canvas id="jaccard" width="16" height="16"></canvas>
+            </td>
+            <td>
+              <canvas id="tanimoto" width="16" height="16"></canvas>
+            </td>
+          </tr>
+
+      </table>
+
+      <div style="clear:both">hi</div>
+    </div>
+  </div>
+  <button onclick="renderTestSet()">Display Test Set</button>
+  <br/>
+  <!--canvas width="320" height="1600" id="digits"-->
+  </div>
+  <script src="./js/drawing.js"></script>
+</body>
+
+</html>
