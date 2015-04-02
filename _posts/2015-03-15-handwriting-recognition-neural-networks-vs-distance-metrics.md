@@ -5,7 +5,7 @@ date:       2015-03-15 09:00:00
 author:     "Eric Mittelhammer"
 ---
 
-If you've ever taken a course on machine learning or artificial intelligence, the unit on neural networks most certainly had an exercise on handwriting recognition.  There's a reason for this: they're very good at generalizing problems tha have extremely fuzzy input.
+If you've ever taken a course on machine learning or artificial intelligence, the unit on neural networks most certainly had an exercise on handwriting recognition.  There's a reason for this: they're very good at generalizing problems that have extremely fuzzy input.
 
 Below is an embarrassingly un-scientific demo which pits a neural network against some much simpler distance metrics.
 
