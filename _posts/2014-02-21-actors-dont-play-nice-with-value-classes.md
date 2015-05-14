@@ -5,6 +5,10 @@ subtitle:   "And you can blame reflection"
 date:       2014-02-21 12:00:00
 author:     "Eric Mittelhammer"
 header-img: "img/tools.jpg"
+tags:
+- scala
+- akka
+- actors
 ---
 
 Scala value classes are a sugary-sweet convenience, but they can introduce some low-level conflicts due to their compilation magic.

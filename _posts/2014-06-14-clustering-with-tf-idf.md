@@ -5,6 +5,11 @@ title:      "Clustering with TF-IDF"
 date:       2014-06-14 9:00:00
 author:     "Eric Mittelhammer"
 header-img: "img/wood_sm.jpg"
+tags:
+- machine learning
+- NLP
+- clustering
+- R
 ---
 
 Recently I worked on a proof-of-concept clustering algorithm that used TF-IDF as its distance metric.

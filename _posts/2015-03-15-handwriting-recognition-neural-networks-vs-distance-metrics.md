@@ -3,6 +3,9 @@ layout:     post
 title:      "Handwriting Recognition: Neural Networks vs. Distance Metrics"
 date:       2015-03-15 09:00:00
 author:     "Eric Mittelhammer"
+tags:
+- machine learning
+- neural networks
 ---
 
 If you've ever taken a course on machine learning or artificial intelligence, the unit on neural networks most certainly had an exercise on handwriting recognition.  There's a reason for this: they're very good at generalizing problems that have extremely fuzzy input.

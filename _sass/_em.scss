@@ -1,0 +1,33 @@
+ul.tagindex {
+    list-style-type: none
+}
+
+ul.posttags {
+
+    padding-top: 0;
+    padding-bottom: 0;
+    padding-left: 0;
+    list-style-type: none;
+
+    li {
+        display: inline;
+        font-style: italic;
+    }
+
+    li:before {
+        content: "\2022\00a0";
+    }
+
+    li:first-child:before {
+        content: none;
+    }
+}
+.after-title {
+    position: relative;
+}
+.share-page {
+    padding:0;
+    position: absolute;
+    top: 0;
+    right: 0;
+}

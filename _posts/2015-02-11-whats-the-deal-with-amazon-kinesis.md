@@ -5,6 +5,10 @@ subtitle:   "Stream your way to fun & profit!"
 #date:       2015-02-11 12:00:00
 author:     "Eric Mittelhammer"
 header-img: "img/tools.jpg"
+tags:
+- AWS
+- Kinesis
+- big data
 ---
 
 The Amazonian marketing angle on Kinesis is pretty clear.  The [product page](http://aws.amazon.com/kinesis/) is a treasure trove of buzzwords: "Streaming", "Real-Time", "Parallel", "Magic" (ok i threw that one in there myself).  Great for CTOs, not so much for developers.  The documentation is a bit sparse as well.  All the good stuff is buried pretty deep and is spread out amongst the developer guide, api reference, and client library documentation.  Hopefully this article will help you grok it all a little better.
