@@ -12,9 +12,9 @@ layout: default
           <h3 class="h2 post-title">{{ post.title }}</h3>
           <p class="post-summary">
             {% if post.summary %}
-              {{ post.summary }}
+              {{ post.summary | strip_html }}
             {% else %}
-              {{ post.excerpt }}
+              {{ post.excerpt | strip_html }}
             {% endif %}
           </p>
         </a>
