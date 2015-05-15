@@ -75,7 +75,7 @@ Still kinda fuzzy, right?  Let's try to walk-through a real world example[^3].
 
 Let's say you are building a multitenant web analytics application.  You have an array of app servers collecting pageview events and sending them to a Kinesis Stream named "Pageviews" with 4 shards.  You have chosen the ID of each client to be the Partition Key (you'll see why in a minute).
 
-To process the records in this Stream, you create that counts the total page views for each client and writes them to a database periodically.  This application is named "Counter".
+To process the records in this Stream, you create an application that counts the total page views for each client and writes them to a database periodically.  This application is named "Counter".
 
 The Record Processor for the Counter app might look like this (in pseudocode):
 
@@ -150,7 +150,7 @@ public static void main(String[] args){
 
 Notes:
 
-* InitialPositionInStream is just an enumeration that the library provides.  The setting on the configuraion is used to tell the KCL which kind of Shard Iterator to get - but only the first time this Application is ever run.  Subsecuent launches will use the DynamoDB table to see the last record processed and start from there.
+* InitialPositionInStream is just an enumeration that the library provides.  The setting on the configuraion is used to tell the KCL which kind of Shard Iterator to get - but only the first time this Application is ever run.  Subsequent launches will use the DynamoDB table to see the last record processed and start from there.
 * for brevity, I left out the declaration of the CounterRecordProcessorFactory.  You'll just have to trust me that it creates an instance of CounterRecordProcessor
 
 Let's run through all of this and see how it would work:
